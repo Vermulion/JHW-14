@@ -14,6 +14,8 @@ public class AirportManagerTest {
     Ticket ticket4 = new Ticket(4, 2350, "VKO", "DXB", 620);
     Ticket ticket5 = new Ticket(5, 7000, "DXB", "EZE", 980);
     Ticket ticket6 = new Ticket(6, 11800, "LED", "DPS", 600);
+    Ticket ticket7 = new Ticket(7, 11800, "VKO", "DXB", 515);
+    Ticket ticket8 = new Ticket(8, 9999, "VKO", "DXB", 800);
 
 
     @BeforeEach
@@ -28,7 +30,7 @@ public class AirportManagerTest {
     }
 
     @Test
-    public void shouldFindSeveralTickets() {
+    public void shouldFindTicketsWithTheSameFlightTime() {
         Ticket[] expected = {ticket6, ticket1};
         Ticket[] actual = manager.searchBy("LED", "DPS");
 
@@ -55,6 +57,16 @@ public class AirportManagerTest {
     public void shouldSortByCost() {
         Ticket[] expected = {ticket4, ticket2, ticket5, ticket3, ticket6, ticket1};
         Ticket[] actual = repo.getTickets();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSortByFlightTime() {
+        manager.add(ticket7);
+        manager.add(ticket8);
+        Ticket[] expected = {ticket7, ticket4, ticket8};
+        Ticket[] actual = manager.searchBy("VKO", "DXB");
 
         Assertions.assertArrayEquals(expected, actual);
     }
