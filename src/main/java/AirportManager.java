@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class AirportManager {
     private TicketRepository repo;
 
@@ -9,6 +11,7 @@ public class AirportManager {
     public AirportManager(TicketRepository repo) {
         this.repo = repo;
     }
+    TicketFlightTimeComparator ticketTimeComparator = new TicketFlightTimeComparator();
 
     public Ticket[] searchBy(String from, String to) {
         Ticket[] result = new Ticket[0]; // тут будем хранить подошедшие запросу билеты
@@ -22,6 +25,7 @@ public class AirportManager {
                 tmp[tmp.length - 1] = ticket;
                 result = tmp;
             }
+            Arrays.sort(result, ticketTimeComparator);
         }
         return result;
     }
